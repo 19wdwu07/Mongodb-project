@@ -18,7 +18,7 @@ npm i
 
 *You should have a mongodb account. The URI connection string needs username, password and cluster name with attached id. If not, create an account and get the uri string from https://www.mongodb.com/*
 
-Rename the config-copy.json file into config.json and add your username, password and clustername with id.
+Copy the config-copy.json file and rename it to config.json and add your username, password and clustername with its id.
 
 ### Step 4 - Run the project
 
