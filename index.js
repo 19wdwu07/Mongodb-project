@@ -92,23 +92,20 @@ app.get('/allProductsFromDB', (req,res)=>{
 
 });
 
-// delete a product
-app.delete('/deleteProduct/:id', (req,res)=>{
+//delete a product
+app.delete('/deleteProduct/:id',(req,res)=>{
   const idParam = req.params.id;
-  Product.findOne({_id : idParam}, (err, product) =>{
-
-       if(product['user_id'] == req.body.userId){
-     Product.deleteOne({_id:idParam}, err =>{
-       res.send('deleted');
-     });
-   } else {
-     res.send('cannot delete');
-   }
-
- }).catch(err => res.send(err));
+  Product.findOne({_id:idParam}, (err,product)=>{ //_id refers to mongodb
+    if (product){
+      Product.deleteOne({_id:idParam},err=>{
+        res.send('deleted');
+      });
+    } else {
+      res.send('not found');
+    }
+  }).catch(err => res.send(err));
 });
 
-//update..
 app.patch('/updateProduct/:id',(req,res)=>{
   const idParam = req.params.id;
   Product.findById(idParam,(err,product)=>{
@@ -126,9 +123,8 @@ app.patch('/updateProduct/:id',(req,res)=>{
 });
 
 
-
 //register user
-app.post('/registerUser', (req,res)=>{
+app.post('/registerUser', (req,res)=>{ // this is for create
   //checking if user is found in the db already
   User.findOne({username:req.body.username},(err,userResult)=>{
 
@@ -175,6 +171,7 @@ app.post('/loginUser', (req,res)=>{
     }//outer if
   });//findOne
 });//post
+
 
 
 
