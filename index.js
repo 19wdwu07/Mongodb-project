@@ -6,7 +6,7 @@ const cors = require('cors'); //to include cross orgin request
 const bcryptjs = require('bcryptjs');//to hash and compare password in an encrypted method
 const config = require('./config.json');//has credentials
 const product = require('./Products.json');//external json data from mockaroo api
-const dbProduct = require('./models/products.js');
+const Product = require('./models/products.js');
 const User = require('./models/users.js');
 
 
@@ -57,6 +57,74 @@ app.get('/products/p=:id', (req,res)=>{
   }
 
 });
+
+//Add products.
+app.post('/addProduct', (req,res)=>{
+  //checking if user is found in the db already
+  Product.findOne({name:req.body.name},(err,productResult)=>{
+
+    if (productResult){
+      res.send('product added already');
+    } else{
+
+       const dbProduct = new Product({
+         _id : new mongoose.Types.ObjectId,
+         name : req.body.name,
+         price : req.body.price,
+         imageUrl : req.body.imageUrl
+       });
+       //save to database and notify the user accordingly
+       dbProduct.save().then(result =>{
+         res.send(result);
+       }).catch(err => res.send(err));
+    }
+
+  })
+
+
+});
+
+//get all products
+app.get('/allProductsFromDB', (req,res)=>{
+  Product.find().then(result =>{
+    res.send(result);
+  })
+
+});
+
+// delete a product
+app.delete('/deleteProduct/:id', (req,res)=>{
+  const idParam = req.params.id;
+  Product.findOne({_id : idParam}, (err, product) =>{
+
+       if(product['user_id'] == req.body.userId){
+     Product.deleteOne({_id:idParam}, err =>{
+       res.send('deleted');
+     });
+   } else {
+     res.send('cannot delete');
+   }
+
+ }).catch(err => res.send(err));
+});
+
+//update..
+app.patch('/updateProduct/:id',(req,res)=>{
+  const idParam = req.params.id;
+  Product.findById(idParam,(err,product)=>{
+    const updatedProduct ={
+      name:req.body.name,
+      price:req.body.price,
+      imageUrl: req.body.imageUrl
+    };
+    Product.updateOne({_id:idParam}, updatedProduct).then(result=>{
+      res.send(result);
+    }).catch(err=> res.send(err));
+
+  }).catch(err=>res.send('not found'));
+
+});
+
 
 
 //register user
