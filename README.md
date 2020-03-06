@@ -34,20 +34,24 @@ nodemon index.js
 
 ### Step 5 - To see the home page
 
-192.168.33.10:3000/
+localhost:3000 or use ip in the place of localhost
 
 
 ### Step 6 - Endpoints
 
 **Endpoints**       | **Description**             |**Acceptable values**| **Method**|
 --------------------|-----------------------------|---------------------|-----------|
-|/allProducts       | get all products from json file|                  | GET       |
-|/products/p=       | get product by id from json file|number           | GET       |
-|/registerUser      | post the new user to db     |                     | POST      |
-|/allUSers          | get all users from db       |                     | GET       |
+|/allProducts       | view all products from json file|                 | GET       |
+|/products/p=       | view a product by id from json file|number        | GET       |
+|/registerUser      | add a new user to db          |                   | POST      |
+|/allUSers          | view all users from db      |                     | GET       |
 |/loginUser         | check for  existing  userto login |               | POST      |
+|/allProductsFromDB | view all products from db    |                    | GET       |
+|/addProduct        | add a product in db        |                      | POST      |
+|/updateProduct/    | modify a product using id     |  ObjectId         | PATCH     |
+|/deleteProduct/    | remove a product using id     |  ObjectId         | DELETE    |
 
 
-### Step 7 - mongodb
+### Step 7 - Mongodb
 
-To see data being posted, click on cluster->collections->shop->users
+To see data being posted,updated or deleted,  click on cluster->collections->shop->users or products respectively
