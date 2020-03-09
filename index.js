@@ -119,7 +119,7 @@ app.patch('/updateProduct/:id',(req,res)=>{
     }).catch(err=> res.send(err));
 
   }).catch(err=>res.send('not found'));
-  
+
 });
 
 
