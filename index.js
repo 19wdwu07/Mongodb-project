@@ -71,7 +71,7 @@ app.post('/addProduct', (req,res)=>{
          _id : new mongoose.Types.ObjectId,
          name : req.body.name,
          price : req.body.price,
-         imageUrl : req.body.imageUrl
+         user_id :req.body.userId
        });
        //save to database and notify the user accordingly
        dbProduct.save().then(result =>{
