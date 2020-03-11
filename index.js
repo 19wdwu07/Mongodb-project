@@ -65,13 +65,15 @@ app.post('/addProduct', (req,res)=>{
 
     if (productResult){
       res.send('product added already');
-    } else{
+    } else {
+
 
        const dbProduct = new Product({
          _id : new mongoose.Types.ObjectId,
          name : req.body.name,
          price : req.body.price,
-         imageUrl : req.body.imageUrl
+         image_url : req.body.imageUrl,
+         user_id : req.body.userId
        });
        //save to database and notify the user accordingly
        dbProduct.save().then(result =>{
@@ -109,16 +111,22 @@ app.delete('/deleteProduct/:id',(req,res)=>{
 app.patch('/updateProduct/:id',(req,res)=>{
   const idParam = req.params.id;
   Product.findById(idParam,(err,product)=>{
+    if (product['user_id'] == req.body.userId){
     const updatedProduct ={
       name:req.body.name,
       price:req.body.price,
-      imageUrl: req.body.imageUrl
+      image_url:req.body.imageUrl,
+      user_id : req.body.userId
+
     };
     Product.updateOne({_id:idParam}, updatedProduct).then(result=>{
       res.send(result);
     }).catch(err=> res.send(err));
+  } else {
+    res.send('401 error; user has no permission to update');
+  }
 
-  }).catch(err=>res.send('not found'));
+}).catch(err=>res.send('product not found'));
 
 });
 
