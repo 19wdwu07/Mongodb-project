@@ -74,6 +74,8 @@ app.post('/addProduct', (req,res)=>{
          price : req.body.price,
          image_url : req.body.imageUrl,
          user_id : req.body.userId
+
+
        });
        //save to database and notify the user accordingly
        dbProduct.save().then(result =>{
